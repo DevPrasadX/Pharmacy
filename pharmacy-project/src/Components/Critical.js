@@ -1,110 +1,28 @@
 // Expired.js
+import React, { useState, useEffect } from "react";
 
-import React from 'react';
 import './CriticalStock.css';
 
 const Critical = () => {
-  const medicineData = [
-    // The medicine data you provided (same as used in SliderComponent)
-    // (Add your medicine data here...)
-    {
-      name: "Medicine Name 1",
-      date: "Add Date 1",
-      type: "GASEOUS, LIQUID, SOLID",
-      critical: "Critical Date 1",
-      imageUrl: "./companylogo/7514751.jpg",
-      supplierName: "Supplier 1",
-      supplierNumber: "Supplier Number 1",
-      stock: "10",
-      stock: "10",
-    },
+  const [medicineData, setMedicineData] = useState([]);
 
-    {
-      name: "Medicine Name 1",
-      date: "Add Date 1",
-      type: "GASEOUS, LIQUID, SOLID",
-      critical: "Critical Date 1",
-      imageUrl: "./companylogo/7514751.jpg",
-      supplierName: "Supplier 1",
-      supplierNumber: "Supplier Number 1",
-      stock: "10",
-    },
-    {
-      name: "Medicine Name 1",
-      date: "Add Date 1",
-      type: "GASEOUS, LIQUID, SOLID",
-      critical: "Critical Date 1",
-      imageUrl: "./companylogo/7514751.jpg",
-      supplierName: "Supplier 1",
-      supplierNumber: "Supplier Number 1",
-      stock: "10",
-    },
-    {
-      name: "Medicine Name 1",
-      date: "Add Date 1",
-      type: "GASEOUS, LIQUID, SOLID",
-      critical: "Critical Date 1",
-      imageUrl: "./companylogo/7514751.jpg",
-      supplierName: "Supplier 1",
-      supplierNumber: "Supplier Number 1",
-      stock: "10",
-    },
-    {
-      name: "Medicine Name 1",
-      date: "Add Date 1",
-      type: "GASEOUS, LIQUID, SOLID",
-      critical: "Critical Date 1",
-      imageUrl: "./companylogo/7514751.jpg",
-      supplierName: "Supplier 1",
-      supplierNumber: "Supplier Number 1",
-      stock: "10",
-    },
+  useEffect(() => {
+    const fetchMedicineData = async () => {
+      try {
+        const response = await fetch('http://localhost:5050/api/getmedicines');
+        if (!response.ok) {
+          throw new Error('Failed to fetch data');
+        }
+        const data = await response.json();
+        setMedicineData(data);
+      } catch (error) {
+        console.error('Error fetching medicine data:', error);
+      }
+    };
 
-    {
-      name: "Medicine Name 1",
-      date: "Add Date 1",
-      type: "GASEOUS, LIQUID, SOLID",
-      critical: "Critical Date 1",
-      imageUrl: "./companylogo/7514751.jpg",
-      supplierName: "Supplier 1",
-      supplierNumber: "Supplier Number 1",
-      stock: "10",
-    },
-
-    {
-      name: "Medicine Name 1",
-      date: "Add Date 1",
-      type: "GASEOUS, LIQUID, SOLID",
-      critical: "Critical Date 1",
-      imageUrl: "./companylogo/7514751.jpg",
-      supplierName: "Supplier 1",
-      supplierNumber: "Supplier Number 1",
-      stock: "10",
-    },
-
-    {
-      name: "Medicine Name 1",
-      date: "Add Date 1",
-      type: "GASEOUS, LIQUID, SOLID",
-      critical: "Critical Date 1",
-      imageUrl: "./companylogo/7514751.jpg",
-      supplierName: "Supplier 1",
-      supplierNumber: "Supplier Number 1",
-      stock: "10",
-    },
-    {
-      name: "Medicine Name 1",
-      date: "Add Date 1",
-      type: "GASEOUS, LIQUID, SOLID",
-      critical: "Critical Date 1",
-      imageUrl: "./companylogo/7514751.jpg",
-      supplierName: "Supplier 1",
-      supplierNumber: "Supplier Number 1",
-      stock: "10",
-    },
-
-
-  ];
+    fetchMedicineData();
+  }, []);
+  
   return (
     <>
       <div className="lined-wrap">
@@ -120,12 +38,12 @@ const Critical = () => {
           <div className='critical-card' key={index}>
             <div className='critical-content'>
               <div className='critical-image'>
-                <img src={medicine.imageUrl} height='100' width='100' alt='Medicine' />
+                <img src={`./companylogo/7514751.jpg`} height='100' width='100' alt='Medicine' />
               </div>
               <div className='critical-medicine-details'>
                 <div className='critical-medi-name'>
                   <h3 className='critical-heading' style={{ fontSize: "14px" }}>Medicine Name</h3>
-                  <h3>{medicine.name}</h3>
+                  <h3>{medicine.med_name}</h3>
                 </div>
                 <div className='critical-medi-stock'>
                   <h3 className='heading' style={{ fontSize: "14px" }}>Medicine Stock</h3>
@@ -133,8 +51,8 @@ const Critical = () => {
                 </div>
                 {/* Additional data to be displayed on hover */}
                 <div className='critical-supplier'>
-                  <p>Supplier:<br></br>{medicine.supplierName}</p>
-                  <p>Supplier Number:<br></br> {medicine.supplierNumber}</p>
+                  <p>Supplier:<br></br>{medicine.company_name}</p>
+                  <p>Supplier Number:<br></br> {medicine.Supplier_contact}</p>
                 </div>
               </div>
             </div>

@@ -1,83 +1,31 @@
 // Expired.js
+import React, { useState, useEffect } from "react";
 
-import React from 'react';
 import './Expiry.css';
 
 const Expired = () => {
-  const medicineData = [
-    // The medicine data you provided (same as used in SliderComponent)
-    // (Add your medicine data here...)
-    {
-      name: "Medicine Name 1",
-      date: "Add Date 1",
-      type: "GASEOUS, LIQUID, SOLID",
-      expiry: "Expiry Date 1",
-      imageUrl: "./companylogo/7514751.jpg",
-    },
+  const [medicineData, setMedicineData] = useState([]);
 
-    {
-      name: "Medicine Name 2",
-      date: "Add Date 2",
-      type: "GASEOUS, LIQUID, SOLID",
-      expiry: "Expiry Date 2",
-      imageUrl: "./companylogo/7514751.jpg",
-    },
-    {
-      name: "Medicine Name 3",
-      date: "Add Date 3",
-      type: "GASEOUS, LIQUID, SOLID",
-      expiry: "Expiry Date 3",
-      imageUrl: "./companylogo/7514751.jpg",
-    },
-    {
-      name: "Medicine Name 4",
-      date: "Add Date 4",
-      type: "GASEOUS, LIQUID, SOLID",
-      expiry: "Expiry Date 4",
-      imageUrl: "./companylogo/7514751.jpg",
-    },
-    {
-      name: "Medicine Name 5",
-      date: "Add Date 4",
-      type: "GASEOUS, LIQUID, SOLID",
-      expiry: "Expiry Date 5",
-      imageUrl: "./companylogo/7514751.jpg",
-    },
+  useEffect(() => {
+    const fetchMedicineData = async () => {
+      try {
+        const response = await fetch('http://localhost:5050/api/getexpirymedicines');
+        if (!response.ok) {
+          throw new Error('Failed to fetch data');
+        }
+        const data = await response.json();
+        setMedicineData(data);
+      } catch (error) {
+        console.error('Error fetching medicine data:', error);
+      }
+    };
 
-    {
-      name: "Medicine Name 6",
-      date: "Add Date 4",
-      type: "GASEOUS, LIQUID, SOLID",
-      expiry: "Expiry Date 6",
-      imageUrl: "./companylogo/7514751.jpg",
-    },
-
-    {
-      name: "Medicine Name 7",
-      date: "Add Date 4",
-      type: "GASEOUS, LIQUID, SOLID",
-      expiry: "Expiry Date 7",
-      imageUrl: "./companylogo/7514751.jpg",
-    },
-
-    {
-      name: "Medicine Name 8",
-      date: "Add Date 4",
-      type: "GASEOUS, LIQUID, SOLID",
-      expiry: "Expiry Date 8",
-      imageUrl: "./companylogo/7514751.jpg",
-    },
-    {
-      name: "Medicine Name 9",
-      date: "Add Date 4",
-      type: "GASEOUS, LIQUID, SOLID",
-      expiry: "Expiry Date 9",
-      imageUrl: "./companylogo/7514751.jpg",
-    },
+    fetchMedicineData();
+  }, []);
 
 
-  ];
 
+  
   return (
     <>
       <div className="lined-wrap">
@@ -90,13 +38,13 @@ const Expired = () => {
           <div className='expiry-card' key={index}>
             <div className='content'>
               <div className='expiry-image'>
-                <img src={medicine.imageUrl} height='100' width='100' alt={medicine.name} />
+                <img src={`./companylogo/7514751.jpg`} height='100' width='100' alt={medicine.name} />
               </div>
               <div className='medicine-details'>
                 <h3 className='heading'  style={{  fontSize:"14px" }}>Medicine Name</h3>
             
-                <h3>{medicine.name}</h3>
-                <p style={{ color: "#FF0000" }}>{medicine.expiry}</p>
+                <h3>{medicine.med_name}</h3>
+                <p style={{ color: "#FF0000" }}>{medicine.expiry_date}</p>
               </div>
             </div>
           </div>

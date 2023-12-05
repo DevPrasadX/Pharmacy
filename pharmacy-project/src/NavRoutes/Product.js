@@ -17,6 +17,7 @@ export const Product = () => {
     <Search onSearch={handleSearch}/>
  
     <Slider/>
+    {/* <RecentAdd/> */}
     <Expired/>
     <Critical/>
     <Footer/>

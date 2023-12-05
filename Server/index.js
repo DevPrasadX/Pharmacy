@@ -15,13 +15,13 @@ app.use(express.json());
 app.set('view engine', 'ejs');
 
 // Connect to MongoDB
-// const DB_NAME = 'NASA';
+const DB_NAME = 'test';
 
 async function connectToMongoDB() {
   try {
     await mongoose.connect(
     //   `mongodb+srv://gurnanivansh57:iz64rqtBBQss8iQ7@cluster101.nuwewcc.mongodb.net/${DB_NAME}?retryWrites=true&w=majority`,
-    `mongodb+srv://DevPrasadX:Pass%231234@medicinedata.0hhnkty.mongodb.net/?retryWrites=true&w=majority`,
+    `mongodb+srv://DevPrasadX:Pass%231234@medicinedata.0hhnkty.mongodb.net/${DB_NAME}?retryWrites=true&w=majority`,
     {
         useNewUrlParser: true,
         useUnifiedTopology: true,
@@ -83,7 +83,7 @@ app.post('/api/medicines', async (req, res) => {
 
 app.get('/api/getmedicines', async (req, res) => {
     try {
-      const medicines = await Medicine.find();
+      const medicines = await Medicine.find().sort({date_of_arrival:-1});
   
       res.json(medicines);
     } catch (error) {
@@ -91,25 +91,20 @@ app.get('/api/getmedicines', async (req, res) => {
       res.status(500).json({ error: 'An error occurred while fetching medicines.' });
     }
   });
+
+  app.get('/api/getexpirymedicines', async (req, res) => {
+    try {
+      const medicines = await Medicine.find().sort({expiry_date:-1});
+      
+      res.json(medicines);
+    } catch (error) {
+      console.error('Error fetching medicines:', error);
+      res.status(500).json({ error: 'An error occurred while fetching medicines.' });
+    }
+  });
+  
   
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
   });
 // Route to retrieve data from the nakamura_1979_sm_locations collection
-
-
-
-
-
-
-
-
-
-
-
-
-// ... rest of your code
-
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
