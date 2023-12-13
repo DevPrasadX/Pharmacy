@@ -9,7 +9,7 @@ const Critical = () => {
   useEffect(() => {
     const fetchMedicineData = async () => {
       try {
-        const response = await fetch('http://localhost:5050/api/getmedicines');
+        const response = await fetch('http://localhost:5050/api/getmedicinesstock');
         if (!response.ok) {
           throw new Error('Failed to fetch data');
         }

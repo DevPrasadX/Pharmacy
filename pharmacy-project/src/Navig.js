@@ -50,6 +50,9 @@ const Navig = () => {
           <li>
             <a href="/add">Add</a>
           </li>
+          <li>
+            <a href="/sell">Sell Medicine</a>
+          </li>
         </ul>
       </nav>
 

@@ -4,6 +4,7 @@ import Navig from './Navig';
 import { Home } from './NavRoutes/Home';
 import Product from './NavRoutes/Product';
 import Add from './NavRoutes/Add';
+import Sell from './NavRoutes/Sell';
 
 function App() {
   let component;
@@ -19,7 +20,9 @@ function App() {
     case "/add":
       component = <Add/>;
       break;
-  
+    case "/sell":
+      component = <Sell/>;
+      break;
     default:
       break;
   }

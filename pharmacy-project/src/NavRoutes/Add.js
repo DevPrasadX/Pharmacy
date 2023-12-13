@@ -1,18 +1,61 @@
 import React, { useRef, useState, useEffect } from 'react';
-
+import axios from 'axios';
 import QrReader from 'react-qr-scanner';
 import "../NavRoutes/AddData.css";
 
 const Add = () => {
 
 
-  const [result, setResult] = useState(null); // Initialize result as null or appropriate initial state
-
+  const [result, setResult] = useState(null); 
+  const [companyName, setCompanyName] = useState('');
+  const [medicineName, setMedicineName] = useState('');
+  const [medicineType, setMedicineType] = useState('');
+  const [medicineExpiry, setMedicineExpiry] = useState('');
+  const [medicineMFD, setMedicineMFD] = useState('');
+  const [medicinePrice, setMedicinePrice] = useState('');
+  const [medicineStock, setMedicineStock] = useState('');
+  const [supplierNumber, setSupplierNumber] = useState('');
   const handleScan = (data) => {
     if (data) {
-      setResult(data);
+      let scannedData = data;
+      if (typeof data !== 'string') {
+        scannedData = JSON.stringify(data); 
+        console.log(scannedData);
+      }
+
+      const dataArray = scannedData.split(',');
+      if (dataArray.length >= 8) {
+        setCompanyName(dataArray[0]);
+        setMedicineName(dataArray[1]);
+        setMedicineType(dataArray[2]);
+        setMedicineExpiry(dataArray[3]);
+        setMedicineMFD(dataArray[4]);
+        setMedicinePrice(dataArray[5]);
+        setMedicineStock(dataArray[6]);
+        setSupplierNumber(dataArray[7]);
+      } else {
+        console.error('Scanned data does not contain enough information');
+      }
+    } else {
+      console.error('Scanned data is undefined or null');
     }
   };
+  const handleExtractedData = (dataArray) => {
+    if (dataArray.length >= 8) {
+      setCompanyName(dataArray[0]);
+      setMedicineName(dataArray[1]);
+      setMedicineType(dataArray[2]);
+      setMedicineExpiry(dataArray[3]);
+      setMedicineMFD(dataArray[4]);
+      setMedicinePrice(dataArray[5]);
+      setMedicineStock(dataArray[6]);
+      setSupplierNumber(dataArray[7]);
+    } else {
+      console.error('Scanned data does not contain enough information');
+
+    }
+  };
+
 
   const handleError = (err) => {
     console.error(err);
@@ -25,6 +68,33 @@ const Add = () => {
     setShowCamera(true);
   };
 
+  const handleConfirm = async () => {
+    try {
+      const response = await axios.post('http://localhost:5050/postmedicines', {
+        company_name: companyName.substring(9),
+        med_name: medicineName,
+        med_type:medicineType,
+        date_of_arrival: new Date(),
+        expiry_date: new Date(medicineExpiry),
+        stock: parseInt(medicineStock, 10),
+        price: parseInt(medicinePrice, 10),
+        manufacture_date: new Date(medicineMFD),
+        supplier_number: parseInt(supplierNumber, 10),
+      });
+
+      if (response.ok) {
+        console.log('Medicine added successfully');
+        setCompanyName('');
+        setMedicineName('');
+      } else {
+        const errorMessage = await response.text(); 
+        console.error('Error adding medicine:', errorMessage);
+      }
+    } catch (error) {
+      console.error('Error adding medicine:', error);
+    }
+
+  };
 
 
   return (
@@ -33,20 +103,20 @@ const Add = () => {
         <div className='data-medi-video'>
           <div className='data-video'>
             {showCamera ? (
-             <div>
-             <QrReader
-               delay={300}
-               onError={handleError}
-               onScan={handleScan}
-               style={{ width: '100%' }}
-             />
-             <p>{result && result.text}</p>
-           </div>
+              <div>
+                <QrReader
+                  delay={300}
+                  onError={handleError}
+                  onScan={handleScan}
+                  style={{ width: '100%' }}
+                />
+
+              </div>
             ) : (
               <div className='overlay' onClick={handleOverlayClick}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="208" height="176" viewBox="0 0 208 176" fill="none">
-                <svg xmlns="http://www.w3.org/2000/svg" width="208" height="176" viewBox="0 0 208 176" fill="none">
-  <path d="M208 12V52C208 55.1826 206.736 58.2348 204.485 60.4853C202.235 62.7357 
+                  <svg xmlns="http://www.w3.org/2000/svg" width="208" height="176" viewBox="0 0 208 176" fill="none">
+                    <path d="M208 12V52C208 55.1826 206.736 58.2348 204.485 60.4853C202.235 62.7357 
   199.183 64 196 64C192.817 64 189.765 62.7357 187.515 60.4853C185.264 
   58.2348 184 55.1826 184 52V24H156C152.817 24 149.765 22.7357 147.515 20.4853C145.264 
   18.2348 144 15.1826 144 12C144 8.8174 145.264 5.76515 147.515 3.51472C149.765 1.26428 152.817 
@@ -72,7 +142,7 @@ const Add = () => {
       45.7652 92 48.8174 92 52V124C92 127.183 93.2643 130.235 95.5147 132.485C97.7652 134.736 100.817 136 104
        136C107.183 136 110.235 134.736 112.485 132.485C114.736 130.235 116 127.183 116 124V52C116 48.8174 114.736
         45.7652 112.485 43.5147C110.235 41.2643 107.183 40 104 40Z" fill="black" />
-</svg>
+                  </svg>
                 </svg>
                 <h2>Scan Medicine's Barcode</h2>
                 <p>To Reveal</p>
@@ -83,19 +153,47 @@ const Add = () => {
 
           <div className='data-medi'>
             <div className='medicine-info'>
-              {}
+              <table className='medicinedatatable'>
+                <thead>
+                  <tr>
+                    <th>Company Name</th>
+                    <th>Medicine Name</th>
+                    <th>Medicine Type</th>
+                    <th>Medicine Expiry</th>
+                    <th>Medicine MFD</th>
+                    <th>Medicine Price</th>
+                    <th>Medicine Stock</th>
+                    <th>Supplier Number</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{companyName.substring(9)}</td>
+                    <td>{medicineName}</td>
+                    <td>{medicineType}</td>
+                    <td>{medicineExpiry}</td>
+                    <td>{medicineMFD}</td>
+                    <td>{medicinePrice}</td>
+                    <td>{medicineStock}</td>
+                    <td>{supplierNumber.substring(0, 10)}</td>
+                  </tr>
+                </tbody>
+              </table>
+           
               
-                <div className='medical'>
-                 <p></p> 
-                </div>
-              
-              
+              <div>
+
+
+              </div>
+
+
+
             </div>
           </div>
 
-       
+
           <div className='ConfirmButton'>
-            <button className='Confirm'>Confirm</button>
+            <button className='Confirm' onClick={handleConfirm}>Confirm</button>
           </div>
         </div>
       </div>

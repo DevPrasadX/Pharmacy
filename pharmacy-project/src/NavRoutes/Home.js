@@ -121,10 +121,7 @@ export const Home = () => {
                 </div>
                 <div className='user-info'>
                   <h2>Prasad Pansare</h2>
-                    Mr Prasad has over a decade of experience as a licensed pharmacist, 
-                    specializing in patient counseling, drug interactions, and medication 
-                    therapy management, which has earned him a reputation for providing
-                     compassionate care and accurate pharmaceutical advice to his patients.
+                  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. 
                 </div>
         
             </div>
@@ -134,7 +131,35 @@ export const Home = () => {
                         <img src="./inv.jpg" alt="Service 3" />
                     </div>
                     <div className='user-info'>
-                    <h2>Prasad Pansare</h2>
+                    <h2>Mansi Mulik</h2>
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. 
+
+ </div>     
+            </div>
+            <div className='user-details'>
+                <div className='user-pic'>
+                        <img src="./inv.jpg" alt="Service 3" />
+                    </div>
+                    <div className='user-info'>
+                    <h2>Pranav Hare</h2>
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. 
+</div>     
+            </div>
+            <div className='user-details'>
+                <div className='user-pic'>
+                        <img src="./inv.jpg" alt="Service 3" />
+                    </div>
+                    <div className='user-info'>
+                    <h2>Divya Jagtap</h2>
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. 
+ </div>     
+            </div>
+            <div className='user-details'>
+                <div className='user-pic'>
+                        <img src="./inv.jpg" alt="Service 3" />
+                    </div>
+                    <div className='user-info'>
+                    <h2>Anish Panwala</h2>
                         Mr Prasad has over a decade of experience as a licensed pharmacist, 
                         specializing in patient counseling, drug interactions, and medication 
                         therapy management, which has earned him a reputation for providing

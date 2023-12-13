@@ -11,16 +11,14 @@ const PORT = 5050;
 app.use(cors());
 app.use(express.json());
 
-// Set the view engine to EJS
+
 app.set('view engine', 'ejs');
 
-// Connect to MongoDB
 const DB_NAME = 'test';
 
 async function connectToMongoDB() {
   try {
     await mongoose.connect(
-    //   `mongodb+srv://gurnanivansh57:iz64rqtBBQss8iQ7@cluster101.nuwewcc.mongodb.net/${DB_NAME}?retryWrites=true&w=majority`,
     `mongodb+srv://DevPrasadX:Pass%231234@medicinedata.0hhnkty.mongodb.net/${DB_NAME}?retryWrites=true&w=majority`,
     {
         useNewUrlParser: true,
@@ -37,15 +35,13 @@ async function connectToMongoDB() {
 // Call the function to connect to MongoDB
 connectToMongoDB();
 
-// Define a route for the home route ("/")
+
 app.get('/', (req, res) => {
   res.send('Welcome to the NASA API');
 });
 
-// Assuming you have the Medicine schema defined in 'medicineSchema.js'
-
 // Create a new medicine
-app.post('/api/medicines', async (req, res) => {
+app.post('/postmedicines', async (req, res) => {
   try {
     const {
       company_name,
@@ -81,6 +77,24 @@ app.post('/api/medicines', async (req, res) => {
 });
 
 
+app.get('/api/getmedicinename/:med_name/:company_name', async (req, res) => {
+  try {
+    const { med_name,company_name } = req.params; // Get the med_name from URL parameter
+
+    const medicine = await Medicine.findOne({ med_name,company_name }, { _id: 1,med_name:1,company_name:1,stock:1 });
+
+    if (!medicine) {
+      return res.status(404).json({ error: 'Medicine not found.' });
+    }
+
+    res.json({ _id: medicine._id,med_name:medicine.med_name,
+      comoany_name:medicine.company_name,stock:medicine.stock });
+  } catch (error) {
+    console.error('Error fetching medicine:', error);
+    res.status(500).json({ error: 'An error occurred while fetching the medicine.'});
+}
+});
+
 app.get('/api/getmedicines', async (req, res) => {
     try {
       const medicines = await Medicine.find().sort({date_of_arrival:-1});
@@ -94,7 +108,7 @@ app.get('/api/getmedicines', async (req, res) => {
 
   app.get('/api/getexpirymedicines', async (req, res) => {
     try {
-      const medicines = await Medicine.find().sort({expiry_date:-1});
+      const medicines = await Medicine.find().sort({expiry_date:-1}).limit(12);
       
       res.json(medicines);
     } catch (error) {
@@ -102,8 +116,25 @@ app.get('/api/getmedicines', async (req, res) => {
       res.status(500).json({ error: 'An error occurred while fetching medicines.' });
     }
   });
+   
+  app.get('/api/getmedicinesstock', async (req, res) => {
+    try {
+      const medicines = await Medicine.find({ stock: { $lt: 100 } }) // Find medicines where stock is below 100
+        .sort({ expiry_date: -1 }); // Sort by expiry_date in descending order
+    // Limit the result to 12 items
   
-  
+      res.json(medicines);
+    } catch (error) {
+      console.error('Error fetching medicines:', error);
+      res.status(500).json({ error: 'An error occurred while fetching medicines.' });
+    }
+  });
+
+
+ 
+
+
+    
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
   });
