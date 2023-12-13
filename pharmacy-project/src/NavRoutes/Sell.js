@@ -68,7 +68,8 @@ const Sell = () => {
   //   }
   // };
   
-  
+    }
+  }
 
   const handleError = (err) => {
     console.error(err);
