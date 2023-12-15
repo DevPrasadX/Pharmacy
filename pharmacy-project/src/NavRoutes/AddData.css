@@ -5,7 +5,7 @@
     margin-left: auto;
     margin-right: auto;
     position: relative;
-    height: 780px;
+    height: 900px;
     width: 800px;
     border-radius: 10px;
     padding: 20px;
@@ -100,6 +100,7 @@ h2 {
 .ConfirmButton
 {
     border: none;
+    margin-top: 30px;
     justify-content: right;
     align-items: center;
     float: right;
@@ -123,6 +124,9 @@ button:hover
 .medicinedatatable th
 {
     text-align: left;
+    border: none;
+    border-top-left-radius: 10px ;
+    border-top-right-radius: 10px ;
 }
 .medicinedatatable td
 {
