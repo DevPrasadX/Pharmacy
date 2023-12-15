@@ -42,27 +42,44 @@ const Sell = () => {
   };
 
    const handleConfirmButton = async () => {
-    alert("STOCK UPDATED, MEDICINE : "+medicineName+" has been sold");
-    try {
-    const medName = 'Prozac';
-const companyName = 'Merck';
+//     alert("STOCK UPDATED, MEDICINE : "+medicineName+" has been sold");
+//     try {
+//     const medName = 'Prozac';
+// const companyName = 'Merck';
 
-    const response = await fetch(`http://localhost:5050/api/getmedicinename/${medName}/${companyName}`);
+// <<<<<<< HEAD
+//     const response = await fetch(`http://localhost:5050/api/getmedicinename/${medName}/${companyName}`);
     
-    if (!response.ok) {
-      const errorMessage = await response.json();
-      throw new Error(errorMessage.error || 'Failed to fetch medicine details');
-    }
+//     if (!response.ok) {
+//       const errorMessage = await response.json();
+//       throw new Error(errorMessage.error || 'Failed to fetch medicine details');
+//     }
 
-    const medicineDetails = await response.json();
-    return medicineDetails;
-  } catch (error) {
-    console.error('Error fetching medicine:', error.message);
-    // Handle error
-    return { error: error.message };
-  }
+//     const medicineDetails = await response.json();
+//     return medicineDetails;
+//   } catch (error) {
+//     console.error('Error fetching medicine:', error.message);
+//     // Handle error
+//     return { error: error.message };
+//   }
    };
+
+  //       if (!response.ok) {
+  //         throw new Error('Failed to fetch data');
+  //       }
+  //       const data = await response.json();
+  //       console.log(data);
+  //     } catch (error) {
+  //       console.error('Error fetching medicine data:', error);
+  //     }
+  //   } else {
+  //     console.error('Invalid quantity input');
+  //   }
+  // };
   
+    }
+  }
+>>>>>>> 6d906235dced682404bca32ee52d5732a7f3b682
 
 
   const handleGetMedicine = async () => {
