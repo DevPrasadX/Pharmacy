@@ -95,6 +95,44 @@ app.get('/api/getmedicinename/:med_name/:company_name', async (req, res) => {
 }
 });
 
+app.get('/api/stock_decrement/getmedicinename/:med_name/:company_name', async (req, res) => {
+  try {
+    const { med_name, company_name } = req.params; // Get the med_name and company_name from URL parameters
+
+    const medicine = await Medicine.findOne({ med_name, company_name }, { _id: 1, med_name: 1, company_name: 1, stock: 1 });
+
+    if (!medicine) {
+      return res.status(404).json({ error: 'Medicine not found.' });
+    }
+
+    // Assuming a quantity of 1 is being retrieved, you can adjust this based on your use case
+    const quantityToRetrieve = 1;
+
+    // Check if there's enough stock to retrieve
+    if (medicine.stock >= quantityToRetrieve) {
+      // Subtract the quantity retrieved from the available stock in the database
+      medicine.stock -= quantityToRetrieve;
+      
+      // Save the updated stock value back to the database
+      await medicine.save();
+      
+      // Send the response with the details of the retrieved item
+      res.json({
+        _id: medicine._id,
+        med_name: medicine.med_name,
+        company_name: medicine.company_name,
+        stock: medicine.stock
+      });
+    } else {
+      res.status(400).json({ error: 'Insufficient stock to retrieve.' });
+    }
+  } catch (error) {
+    console.error('Error fetching medicine:', error);
+    res.status(500).json({ error: 'An error occurred while fetching the medicine.' });
+  }
+});
+
+
 app.get('/api/getmedicines', async (req, res) => {
     try {
       const medicines = await Medicine.find().sort({date_of_arrival:-1});
