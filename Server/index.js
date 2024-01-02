@@ -146,8 +146,23 @@ app.get('/api/getmedicines', async (req, res) => {
 
   app.get('/api/getexpirymedicines', async (req, res) => {
     try {
-      const medicines = await Medicine.find().sort({expiry_date:-1}).limit(12);
-      
+      const currentDate = new Date(); // Get the current date
+  
+      // Calculate dates for 1 year and 6 months from now
+      const oneYearFromNow = new Date(currentDate);
+      oneYearFromNow.setFullYear(oneYearFromNow.getFullYear() + 3);
+  
+      const sixMonthsFromNow = new Date(currentDate);
+      sixMonthsFromNow.setMonth(sixMonthsFromNow.getMonth() + 10);
+  
+      // Query medicines that have expiry dates less than 1 year or 6 months from now
+      const medicines = await Medicine.find({
+        expiry_date: {
+          //$lt: oneYearFromNow, // Expiry date less than 1 year from now
+          $lt: sixMonthsFromNow // Expiry date less than 6 months from now
+        }
+      }).sort({ expiry_date: -1 }).limit(12);
+  
       res.json(medicines);
     } catch (error) {
       console.error('Error fetching medicines:', error);
@@ -158,7 +173,7 @@ app.get('/api/getmedicines', async (req, res) => {
   app.get('/api/getmedicinesstock', async (req, res) => {
     try {
       const medicines = await Medicine.find({ stock: { $lt: 100 } }) // Find medicines where stock is below 100
-        .sort({ expiry_date: -1 }); // Sort by expiry_date in descending order
+        .sort({ stock: 1 }); // Sort by expiry_date in descending order
     // Limit the result to 12 items
   
       res.json(medicines);

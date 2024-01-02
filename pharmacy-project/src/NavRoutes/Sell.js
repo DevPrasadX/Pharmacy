@@ -41,19 +41,28 @@ const Sell = () => {
     }
   };
 
-  const handleConfirmButton = async () => {
-    const medicineINPUT=medicineName;
-    const companyINPUT=companyName;
-    const quantityInput = document.getElementById('medicinestock').value;
-    const newStockValue = medicineStock - parseInt(quantityInput, 10);
-  
-    if (!isNaN(newStockValue)) {
-      
-  
-  //     try {
-  //       // const response = await fetch('http://localhost:5050/api/getmedicinename');
-  //       const url = `http://localhost:5050/api/getmedicinename?med_name=${encodeURIComponent("Prozac")}&company_name=${encodeURIComponent("Merck")}`;
-  //       const response = await fetch(url);
+   const handleConfirmButton = async () => {
+//     alert("STOCK UPDATED, MEDICINE : "+medicineName+" has been sold");
+//     try {
+//     const medName = 'Prozac';
+// const companyName = 'Merck';
+
+// <<<<<<< HEAD
+//     const response = await fetch(`http://localhost:5050/api/getmedicinename/${medName}/${companyName}`);
+    
+//     if (!response.ok) {
+//       const errorMessage = await response.json();
+//       throw new Error(errorMessage.error || 'Failed to fetch medicine details');
+//     }
+
+//     const medicineDetails = await response.json();
+//     return medicineDetails;
+//   } catch (error) {
+//     console.error('Error fetching medicine:', error.message);
+//     // Handle error
+//     return { error: error.message };
+//   }
+   };
 
   //       if (!response.ok) {
   //         throw new Error('Failed to fetch data');
@@ -70,6 +79,18 @@ const Sell = () => {
   
     }
   }
+>>>>>>> 6d906235dced682404bca32ee52d5732a7f3b682
+
+
+  const handleGetMedicine = async () => {
+    try {
+      const response = await axios.get('http://localhost:5050/api/getmedicinename/${medName}/${companyName}');
+      //setMedicine(response.data);
+    } catch (error) {
+      console.error('Error fetching medicine:', error);
+      // Handle error here
+}
+};
 
   const handleError = (err) => {
     console.error(err);
