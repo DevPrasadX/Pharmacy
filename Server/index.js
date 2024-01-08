@@ -1,3 +1,4 @@
+require('dotenv').config();
 // backend/server.js
 const express = require('express');
 const mongoose = require('mongoose');
@@ -14,12 +15,14 @@ app.use(express.json());
 
 app.set('view engine', 'ejs');
 
-const DB_NAME = 'test';
+// const DB_NAME = 'test';
+const mongoURL = process.env.MONGODB_URL;
+
 
 async function connectToMongoDB() {
   try {
     await mongoose.connect(
-    `mongodb+srv://DevPrasadX:Pass%231234@medicinedata.0hhnkty.mongodb.net/${DB_NAME}?retryWrites=true&w=majority`,
+    mongoURL,
     {
         useNewUrlParser: true,
         useUnifiedTopology: true,
