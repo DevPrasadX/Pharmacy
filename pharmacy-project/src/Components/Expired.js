@@ -9,7 +9,7 @@ const Expired = () => {
   useEffect(() => {
     const fetchMedicineData = async () => {
       try {
-        const response = await fetch('http://localhost:5050/api/getexpirymedicines');
+        const response = await fetch('https://pharmacy-six-drab.vercel.app/api/getexpirymedicines');
         if (!response.ok) {
           throw new Error('Failed to fetch data');
         }

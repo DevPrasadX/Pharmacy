@@ -70,7 +70,7 @@ const Add = () => {
 
   const handleConfirm = async () => {
     try {
-      const response = await axios.post('http://localhost:5050/postmedicines', {
+      const response = await axios.post('https://pharmacy-six-drab.vercel.app/postmedicines', {
         company_name: companyName.substring(9),
         med_name: medicineName,
         med_type:medicineType,

@@ -48,7 +48,7 @@ const SliderComponent = () => {
   useEffect(() => {
     const fetchMedicineData = async () => {
       try {
-        const response = await fetch('http://localhost:5050/api/getmedicines');
+        const response = await fetch('https://pharmacy-six-drab.vercel.app/api/getmedicines');
         if (!response.ok) {
           throw new Error('Failed to fetch data');
         }

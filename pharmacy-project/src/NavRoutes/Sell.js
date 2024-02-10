@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import './SellMedi.css'; // Create your CSS file for styling
-import QrReader from 'react-qr-scanner'; // Import the QrReader component
+import './SellMedi.css';
+import QrReader from 'react-qr-scanner';
 import axios from 'axios';
+
 const Sell = () => {
-  const [result, setResult] = useState(null);
   const [companyName, setCompanyName] = useState('');
   const [medicineName, setMedicineName] = useState('');
   const [medicineType, setMedicineType] = useState('');
@@ -19,8 +19,6 @@ const Sell = () => {
       if (typeof data !== 'string') {
         scannedData = JSON.stringify(data);
         console.log(scannedData);
-        console.log(medicineStock);
-        
       }
 
       const dataArray = scannedData.split(',');
@@ -41,56 +39,17 @@ const Sell = () => {
     }
   };
 
-   const handleConfirmButton = async () => {
-//     alert("STOCK UPDATED, MEDICINE : "+medicineName+" has been sold");
-//     try {
-//     const medName = 'Prozac';
-// const companyName = 'Merck';
-
-// <<<<<<< HEAD
-//     const response = await fetch(`http://localhost:5050/api/getmedicinename/${medName}/${companyName}`);
-    
-//     if (!response.ok) {
-//       const errorMessage = await response.json();
-//       throw new Error(errorMessage.error || 'Failed to fetch medicine details');
-//     }
-
-//     const medicineDetails = await response.json();
-//     return medicineDetails;
-//   } catch (error) {
-//     console.error('Error fetching medicine:', error.message);
-//     // Handle error
-//     return { error: error.message };
-//   }
-   };
-
-  //       if (!response.ok) {
-  //         throw new Error('Failed to fetch data');
-  //       }
-  //       const data = await response.json();
-  //       console.log(data);
-  //     } catch (error) {
-  //       console.error('Error fetching medicine data:', error);
-  //     }
-  //   } else {
-  //     console.error('Invalid quantity input');
-  //   }
-  // };
-  
-    }
-  }
->>>>>>> 6d906235dced682404bca32ee52d5732a7f3b682
-
-
-  const handleGetMedicine = async () => {
+  const handleConfirmButton = async () => {
+    // Implement your confirmation logic here
+    // Example: alert("STOCK UPDATED, MEDICINE : " + medicineName + " has been sold");
     try {
-      const response = await axios.get('http://localhost:5050/api/getmedicinename/${medName}/${companyName}');
-      //setMedicine(response.data);
+      const response = await axios.get(`https://pharmacy-six-drab.vercel.app/api/getmedicinename/${medicineName}/${companyName}`);
+      // Handle the response data as needed
     } catch (error) {
       console.error('Error fetching medicine:', error);
-      // Handle error here
-}
-};
+      // Handle error here
+    }
+  };
 
   const handleError = (err) => {
     console.error(err);
@@ -98,15 +57,15 @@ const Sell = () => {
 
   return (
     <div className="qr-scanner">
-    <h2>QR Code Scanner</h2>
-    <div className="scanner-container">
-      <QrReader
-        delay={300}
-        onError={handleError}
-        onScan={handleScan}
-        style={{ width: '100%' }}
-      />
-    </div>
+      <h2>QR Code Scanner</h2>
+      <div className="scanner-container">
+        <QrReader
+          delay={300}
+          onError={handleError}
+          onScan={handleScan}
+          style={{ width: '100%' }}
+        />
+      </div>
 
       <div className="scanned-data">
         <table className="medicinedatatable">
@@ -130,7 +89,13 @@ const Sell = () => {
               <td>{medicineMFD}</td>
               <td>{medicinePrice}</td>
               <td>
-                <input type="number" id="medicinestock" name="medicinestock" />
+                <input
+                  type="number"
+                  id="medicinestock"
+                  name="medicinestock"
+                  value={medicineStock}
+                  onChange={(e) => setMedicineStock(e.target.value)}
+                />
               </td>
             </tr>
           </tbody>
